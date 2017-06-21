@@ -852,7 +852,7 @@ class Grid
      */
     public function __call($method, $arguments)
     {
-        $label = isset($arguments[0]) ? $arguments[0] : ucfirst($method);
+        $label = isset($arguments[0]) ? $arguments[0] : trans_table_column($this->model->getTable(), $method);
 
         if ($this->model()->eloquent() instanceof MongodbModel) {
             return $this->addColumn($method, $label);

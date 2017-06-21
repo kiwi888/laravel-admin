@@ -216,10 +216,20 @@ class Field implements Renderable
     protected function formatLabel($arguments = [])
     {
         $column = is_array($this->column) ? current($this->column) : $this->column;
+        $langTrans = 'tables.' . $this->form->model()->getTable() . '.' . $column;
 
-        $label = isset($arguments[0]) ? $arguments[0] : ucfirst($column);
+        if (isset($arguments[0])) {
+            $label = $arguments[0];
+        }
+        else if (Lang::has($langTrans)) {
+            $label = trans($langTrans);
+        }
+        else {
+            $label = ucfirst($column);
+            $label = str_replace(['.', '_'], ' ', $label);
+        }
 
-        return str_replace(['.', '_'], ' ', $label);
+        return $label;
     }
 
     /**
